@@ -13,9 +13,8 @@ function addCart(){
     Are you sure you want to add this item to cart!
   </Alert>
 }
+
 function ProductCard({brand,title,image,category,price}) {
-
-
   return (
     <Card maxW='sm'>
     <CardBody>

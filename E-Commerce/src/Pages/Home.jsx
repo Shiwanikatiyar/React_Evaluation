@@ -11,24 +11,27 @@ function Home() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const[filterValue,setFilterValue] = useState('')
-    const[sortValue, setSortValue] =useState('')
+    const [filterValue, setFilterValue] = useState('')
+    const [sortValue, setSortValue] = useState('')
 
-    async function productData(sortValue,filterValue) {
+    async function productData(sortValue, filterValue) {
         setLoading(true)
+        setError(false)
         try {
 
 
-            let queryParams={};
+            let queryParams = {};
+            
             if(filterValue){
-                queryParams.category =filterValue;
+                queryParams.category = filterValue;
+              }
+
+            if (sortValue) {
+                queryParams.sort = "price",
+                queryParams.order = sortValue;
             }
 
-            if(sortValue){
-                queryParams._sort="price",
-                queryParams._order= sortValue;
-            }
-
+            console.log(queryParams)
 
             let res = await axios({
                 method: "get",
@@ -45,26 +48,26 @@ function Home() {
         }
     }
     useEffect(() => {
-        productData(sortValue,filterValue)
-    }, [sortValue,filterValue]);
+        productData(sortValue, filterValue)
+    }, [sortValue, filterValue]);
 
-    if(loading){
-        return <LoadingIndicator/>
+    if (loading) {
+        return <LoadingIndicator />
     }
-    if(error){
-        return <ErrorIndicator/>
+    if (error) {
+        return <ErrorIndicator />
     }
     return (
         <Container maxW={'100%'}>
             <HStack py={'1em'}>
-                <Select placeholder='Sort by Price' value={sortValue} onChange={(e)=>{
+                <Select placeholder='Sort by Price' value={sortValue} onChange={(e) => {
                     setSortValue(e.target.value);
                 }}>
                     <option value='asc'>Ascending</option>
                     <option value='desc'>Descending</option>
-                  
+
                 </Select>
-                <Select placeholder='Filter by Category' value={filterValue} onChange={(e)=>{
+                <Select placeholder='Filter by Category' value={filterValue} onChange={(e) => {
                     setFilterValue(e.target.value);
                 }}>
                     <option value='men'>Men</option>
